@@ -6,8 +6,10 @@ import me.dio.academia.digital.entity.AvaliacaoFisica;
 import me.dio.academia.digital.entity.form.AlunoForm;
 import me.dio.academia.digital.service.AlunoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -18,9 +20,10 @@ public class AlunoController {
     private AlunoServiceImpl service;
 
     @GetMapping
-    public List<Aluno> getAll(){
-    return service.getAll();
+    public List<Aluno> getAll(@RequestParam(value = "dataDeNascimento", required = false) String dataDeNascimento) {
+        return service.getAll(dataDeNascimento);
     }
+
 
     @PostMapping
     public Aluno create(@Valid @RequestBody AlunoForm form){
@@ -31,4 +34,10 @@ public class AlunoController {
     public List<AvaliacaoFisica> getAllAvaliacaoFisica(@PathVariable Long id){
         return service.getAllAvaliacaoFisicaId(id);
     };
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

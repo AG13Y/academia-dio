@@ -8,6 +8,7 @@ import me.dio.academia.digital.repository.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -32,9 +33,16 @@ public class AlunoServiceImpl implements IAlunoService {
         return null;
     }
 
+
     @Override
-    public List<Aluno> getAll() {
-        return repository.findAll();
+    public List<Aluno> getAll(String dataDeNascimento) {
+
+        if (dataDeNascimento == null) {
+            return repository.findAll();
+        }
+
+        LocalDate localDate = LocalDate.parse(dataDeNascimento);
+        return repository.findByDataDeNascimento(localDate);
     }
 
     @Override
@@ -45,6 +53,10 @@ public class AlunoServiceImpl implements IAlunoService {
     @Override
     public void delete(Long id) {
 
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("Aluno não encontrado");
+        }
+        repository.deleteById(id);
     }
 
     @Override
