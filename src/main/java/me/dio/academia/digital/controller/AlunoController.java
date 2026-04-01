@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import me.dio.academia.digital.entity.Aluno;
 import me.dio.academia.digital.entity.AvaliacaoFisica;
 import me.dio.academia.digital.entity.form.AlunoForm;
+import me.dio.academia.digital.entity.form.AlunoUpdateForm;
 import me.dio.academia.digital.service.AlunoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,4 +41,11 @@ public class AlunoController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public List<Aluno> update(@PathVariable Long id, @RequestBody AlunoUpdateForm formUpdate) {
+
+        return service.update(id, formUpdate);
+    }
+
 }
