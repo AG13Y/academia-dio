@@ -3,7 +3,6 @@ package me.dio.academia.digital.controller;
 import jakarta.validation.Valid;
 import me.dio.academia.digital.dto.AlunoDTO.AlunoRequestDTO;
 import me.dio.academia.digital.dto.AlunoDTO.AlunoResponseDTO;
-import me.dio.academia.digital.entity.Aluno;
 import me.dio.academia.digital.service.AlunoService.AlunoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

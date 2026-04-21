@@ -81,11 +81,5 @@ public class AlunoServiceImpl implements IAlunoService {
         repository.deleteById(id);
     }
 
-    @Override
-    public List<AvaliacaoFisica> getAllAvaliacaoFisicaId(Long id) {
-    Aluno aluno = repository.findById(id).get();
-
-    return aluno.getAvaliacoes();
-    }
 
 }

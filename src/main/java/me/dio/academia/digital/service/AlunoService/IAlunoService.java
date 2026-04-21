@@ -23,5 +23,4 @@ public interface IAlunoService {
 
   void delete(Long id);
 
-  List<AvaliacaoFisica> getAllAvaliacaoFisicaId(Long id);
 }
