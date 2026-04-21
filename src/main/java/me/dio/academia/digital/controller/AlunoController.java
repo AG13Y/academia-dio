@@ -42,6 +42,7 @@ public class AlunoController {
         return ResponseEntity.noContent().build();
     }
 
+
     @PutMapping("/{id}")
     public Aluno update(@PathVariable Long id, @RequestBody AlunoUpdateForm formUpdate) {
 
