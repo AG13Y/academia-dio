@@ -38,6 +38,11 @@ public class MatriculaServiceImpl implements IMatriculaService{
         matricula.setAluno(aluno);
         matricula.setPlano(plano);
 
+        LocalDateTime dataInicio = LocalDateTime.now();
+        LocalDateTime dataFim = dataInicio.plusMonths(plano.getDuracaoDePlano());
+
+        matricula.setDataDaMatricula(dataInicio);
+        matricula.setDataVencimento(dataFim);
         Matricula salvo = matriculaRepository.save(matricula);
 
         return new MatriculaResponseDTO(
@@ -71,5 +76,15 @@ public class MatriculaServiceImpl implements IMatriculaService{
                 .toList();
     }
 
+    @Override
+    public void delete(Long id) {
+        // 1. Verifica se a matrícula existe
+        if (!matriculaRepository.existsById(id)) {
+            throw new RuntimeException("Matrícula não encontrada com o ID: " + id);
+        }
+
+        // 2. Deleta o registro
+        matriculaRepository.deleteById(id);
+    }
     // Implementar os outros métodos conforme necessário...
 }

@@ -11,4 +11,6 @@ public interface IMatriculaService {
     MatriculaResponseDTO create(MatriculaRequestDTO dto);
 
     List<MatriculaResponseDTO> getAll(String bairro);
+
+    void delete(Long id);
 }

@@ -31,4 +31,10 @@ public class MatriculaController {
         List<MatriculaResponseDTO> matriculas = service.getAll(bairro);
         return ResponseEntity.ok(matriculas);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
