@@ -2,6 +2,7 @@ package me.dio.academia.digital.service.AlunoService;
 
 import me.dio.academia.digital.dto.AlunoDTO.AlunoRequestDTO;
 import me.dio.academia.digital.dto.AlunoDTO.AlunoResponseDTO;
+import me.dio.academia.digital.dto.AlunoDTO.AlunoUpdateDTO;
 import me.dio.academia.digital.entity.Aluno;
 
 
@@ -18,7 +19,7 @@ public interface IAlunoService {
   List<AlunoResponseDTO> getAll(String dataDeNascimento);
 
 
-  Aluno update(Long id, AlunoRequestDTO dto);
+  AlunoResponseDTO update(Long id, AlunoUpdateDTO dto);
 
 
   void delete(Long id);

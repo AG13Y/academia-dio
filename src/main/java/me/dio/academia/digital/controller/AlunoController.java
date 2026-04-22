@@ -3,6 +3,7 @@ package me.dio.academia.digital.controller;
 import jakarta.validation.Valid;
 import me.dio.academia.digital.dto.AlunoDTO.AlunoRequestDTO;
 import me.dio.academia.digital.dto.AlunoDTO.AlunoResponseDTO;
+import me.dio.academia.digital.dto.AlunoDTO.AlunoUpdateDTO;
 import me.dio.academia.digital.service.AlunoService.AlunoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,14 +37,14 @@ public class AlunoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<AlunoResponseDTO> update(@PathVariable Long id, @Valid @RequestBody AlunoUpdateDTO dto) {
+        return ResponseEntity.ok(service.update(id, dto));
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-
-
-
 }

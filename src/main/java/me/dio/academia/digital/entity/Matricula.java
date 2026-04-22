@@ -22,5 +22,12 @@ public class Matricula {
   @JoinColumn(name = "aluno_id")
   private Aluno aluno;
 
+  @ManyToOne
+  @JoinColumn(name = "plano_id")
+  private Plano plano;
+
   private LocalDateTime dataDaMatricula = LocalDateTime.now();
+
+  @Column(nullable = false)
+  private LocalDateTime dataVencimento;
 }

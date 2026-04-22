@@ -3,6 +3,7 @@ package me.dio.academia.digital.service.AlunoService;
 import jakarta.persistence.EntityNotFoundException;
 import me.dio.academia.digital.dto.AlunoDTO.AlunoRequestDTO;
 import me.dio.academia.digital.dto.AlunoDTO.AlunoResponseDTO;
+import me.dio.academia.digital.dto.AlunoDTO.AlunoUpdateDTO;
 import me.dio.academia.digital.entity.Aluno;
 import me.dio.academia.digital.repository.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,8 +68,19 @@ public class AlunoServiceImpl implements IAlunoService {
     }
 
     @Override
-    public Aluno update(Long id, AlunoRequestDTO dto) {
-        return null;
+    public AlunoResponseDTO update(Long id, AlunoUpdateDTO dto) {
+        // Procurar o aluno existente ou lançar erro
+        Aluno alunoExistente = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
+
+        alunoExistente.setNome(dto.nome());
+        alunoExistente.setBairro(dto.bairro());
+        alunoExistente.setDataDeNascimento(dto.dataDeNascimento());
+
+        // Salvar (O JPA entende que é um update porque o objeto tem ID)
+        Aluno alunoAtualizado = repository.save(alunoExistente);
+
+        return mapToResponse(alunoAtualizado);
     }
 
 
@@ -76,10 +88,9 @@ public class AlunoServiceImpl implements IAlunoService {
     public void delete(Long id) {
 
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Aluno não encontrado");
+            throw new RuntimeException("Aluno não encontrado com o ID: " + id);
         }
         repository.deleteById(id);
     }
-
 
 }
