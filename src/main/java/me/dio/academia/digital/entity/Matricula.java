@@ -29,5 +29,5 @@ public class Matricula {
   private LocalDateTime dataDaMatricula = LocalDateTime.now();
 
   @Column(nullable = false)
-  private LocalDateTime dataVencimento;
+  private LocalDateTime dataVencimento = dataDaMatricula.plusMonths(plano.getDuracaoDePlano());
 }

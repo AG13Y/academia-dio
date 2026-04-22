@@ -38,20 +38,14 @@ public class MatriculaServiceImpl implements IMatriculaService{
         matricula.setAluno(aluno);
         matricula.setPlano(plano);
 
-        // Lógica de Cálculo: Data Atual + Meses do Plano
-        LocalDateTime dataInicio = LocalDateTime.now();
-        LocalDateTime dataFim = dataInicio.plusMonths(plano.getDuracaoDePlano());
-
-        matricula.setDataDaMatricula(dataInicio);
-        matricula.setDataVencimento(dataFim);
-
         Matricula salvo = matriculaRepository.save(matricula);
 
         return new MatriculaResponseDTO(
                 salvo.getId(),
                 salvo.getAluno().getNome(),
                 salvo.getAluno().getCpf(),
-                salvo.getDataDaMatricula()
+                salvo.getDataDaMatricula(),
+                salvo.getDataVencimento()
         );
     }
 
@@ -71,7 +65,8 @@ public class MatriculaServiceImpl implements IMatriculaService{
                         m.getId(),
                         m.getAluno().getNome(),
                         m.getAluno().getCpf(),
-                        m.getDataDaMatricula()
+                        m.getDataDaMatricula(),
+                        m.getDataVencimento()
                 ))
                 .toList();
     }

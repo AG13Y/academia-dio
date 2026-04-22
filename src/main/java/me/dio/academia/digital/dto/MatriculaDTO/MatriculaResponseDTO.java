@@ -6,6 +6,7 @@ public record MatriculaResponseDTO(
         Long id,
         String nomeAluno,
         String cpfAluno,
-        LocalDateTime dataDaMatricula
+        LocalDateTime dataDaMatricula,
+        LocalDateTime dataVencimento
 ) {
 }
