@@ -1,5 +1,6 @@
 package me.dio.academia.digital.service.MatriculaService;
 
+import me.dio.academia.digital.dto.MatriculaDTO.AcessoResponseDTO;
 import me.dio.academia.digital.dto.MatriculaDTO.MatriculaRequestDTO;
 import me.dio.academia.digital.dto.MatriculaDTO.MatriculaResponseDTO;
 import me.dio.academia.digital.entity.Aluno;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MatriculaServiceImpl implements IMatriculaService{
@@ -74,6 +77,48 @@ public class MatriculaServiceImpl implements IMatriculaService{
                         m.getDataVencimento()
                 ))
                 .toList();
+    }
+
+    @Override
+    public List<MatriculaResponseDTO> getMatriculasAtivas() {
+        List<Matricula> ativos = matriculaRepository.findAllByDataVencimentoAfter(LocalDateTime.now());
+
+        return ativos.stream()
+                .map(m -> new MatriculaResponseDTO(
+                        m.getId(),
+                        m.getAluno().getNome(),
+                        m.getAluno().getCpf(),
+                        m.getDataDaMatricula(),
+                        m.getDataVencimento()
+                ))
+                .toList();
+    }
+
+    @Override
+    public AcessoResponseDTO verificarAcesso(Long alunoId) {
+        // 1. Tentar encontrar a matrícula para o aluno
+        // Usamos o repositório para buscar pela FK aluno_id
+        Optional<Matricula> matriculaOpt = matriculaRepository.findAll()
+                .stream()
+                .filter(m -> m.getAluno().getId().equals(alunoId))
+                .findFirst();
+
+        if (matriculaOpt.isEmpty()) {
+            return new AcessoResponseDTO("Desconhecido", false, "Aluno sem matrícula ativa", null);
+        }
+
+        Matricula matricula = matriculaOpt.get();
+        boolean estaAtivo = matricula.getDataVencimento().isAfter(LocalDateTime.now());
+
+        String mensagem = estaAtivo ? "BOM TREINO!" : "PLANO VENCIDO - PROCURE A RECEPÇÃO";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        return new AcessoResponseDTO(
+                matricula.getAluno().getNome(),
+                estaAtivo,
+                mensagem,
+                matricula.getDataVencimento().format(formatter)
+        );
     }
 
     @Override

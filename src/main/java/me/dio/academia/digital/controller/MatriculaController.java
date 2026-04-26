@@ -2,6 +2,7 @@ package me.dio.academia.digital.controller;
 
 import jakarta.validation.Valid;
 import me.dio.academia.digital.dto.AlunoDTO.AlunoResponseDTO;
+import me.dio.academia.digital.dto.MatriculaDTO.AcessoResponseDTO;
 import me.dio.academia.digital.dto.MatriculaDTO.MatriculaRequestDTO;
 import me.dio.academia.digital.dto.MatriculaDTO.MatriculaResponseDTO;
 import me.dio.academia.digital.entity.Matricula;
@@ -30,6 +31,16 @@ public class MatriculaController {
     public ResponseEntity<List<MatriculaResponseDTO>> getAll(@RequestParam(value = "bairro", required = false) String bairro) {
         List<MatriculaResponseDTO> matriculas = service.getAll(bairro);
         return ResponseEntity.ok(matriculas);
+    }
+
+    @GetMapping("/ativas")
+    public ResponseEntity<List<MatriculaResponseDTO>> getAtivos() {
+        return ResponseEntity.ok(service.getMatriculasAtivas());
+    }
+
+    @GetMapping("/verificar-acesso/{alunoId}")
+    public ResponseEntity<AcessoResponseDTO> verificarAcesso(@PathVariable Long alunoId) {
+        return ResponseEntity.ok(service.verificarAcesso(alunoId));
     }
 
     @DeleteMapping("/{id}")
